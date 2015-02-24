@@ -12,15 +12,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-public class SimpleSnake implements ActionListener, KeyListener
+public class Snake implements ActionListener, KeyListener
 {
-	ArrayList<Point> segmenty = new ArrayList<Point>();
+	ArrayList<Point> segmentySnake = new ArrayList<Point>();
 	
 	public JFrame jFrame;
 	
 	public RenderPanel renderPanel;
 	
-	public static SimpleSnake snake;
+	public static Snake snake;
 	
 	public Timer timer = new Timer(10, this);
 
@@ -34,7 +34,7 @@ public class SimpleSnake implements ActionListener, KeyListener
 	
 	Random random = new Random();
 	
-	public SimpleSnake()
+	public Snake()
 	{
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		jFrame = new JFrame("Snake");
@@ -45,13 +45,13 @@ public class SimpleSnake implements ActionListener, KeyListener
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.add(renderPanel = new RenderPanel());
 		jFrame.addKeyListener(this);
-		timer.start();
 		
-		segmenty.add(new Point(3, 2));
+		segmentySnake.add(new Point(3, 2));
 		head = new Point(3, 3);
-		segmenty.add(head);
-	
-		throwCherry(random, segmenty);
+		segmentySnake.add(head);
+		throwCherry(random, segmentySnake);
+
+		timer.start();
 	}
 
 	public static void restartGry(ArrayList<Point> vSegmenty)
@@ -75,7 +75,17 @@ public class SimpleSnake implements ActionListener, KeyListener
 	
 	public static void main(String[] args)
 	{
-		snake = new SimpleSnake();
+		snake = new Snake();
+		
+		snake.timer.stop();
+		JOptionPane.showMessageDialog(null, "\t\tWitaj w grze SNAKE!"
+				+ "\nU¿ywaj nastêpuj¹cych klawiszy aby zmieniæ kierunek ruchu wê¿a:"
+				+ "\n W - do góry"
+				+ "\n S - w dó³ "
+				+ "\n A - w lewo"
+				+ "\n D - w prawo."
+				+ "\n POWODZENIA!");
+		snake.timer.start();
 	}
 	
 	public void actionPerformed(ActionEvent arg0)
@@ -93,27 +103,27 @@ public class SimpleSnake implements ActionListener, KeyListener
 				beforeHead = new Point((int)head.getX() - 1, (int)head.getY());
 			if(direction == RIGHT)
 				beforeHead = new Point((int)head.getX() + 1, (int)head.getY());
-			segmenty.add(beforeHead);
+			segmentySnake.add(beforeHead);
 			Point zastepczy = head;
 			head = beforeHead;
 			beforeHead = zastepczy;
 			
 			if(head.getX() == cherry.getX() && head.getY() == cherry.getY())
 			{
-				throwCherry(random, segmenty);
+				throwCherry(random, segmentySnake);
 			}
 			else
 			{
-			segmenty.remove(0);
+			segmentySnake.remove(0);
 			}
 
-			for(Point x: segmenty)
+			for(Point x: segmentySnake)
 				if(head.getX() == x.getX() && head.getY() == x.getY() && x != head
 						|| head.getX() >=30 || head.getX() < 0 || head.getY() >=30 || head.getY() < 0 )
 				{
 					timer.stop();
 					JOptionPane.showMessageDialog(null, "\t\tGra skoñczona! Naciœnij OK aby spróbowaæ ponownie.");
-					restartGry(segmenty);
+					restartGry(segmentySnake);
 					break;
 				}
 		}

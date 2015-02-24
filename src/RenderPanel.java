@@ -30,15 +30,15 @@ public class RenderPanel extends JPanel
 		for(int j = 0; j<=600; j+=wP)
 			g.drawLine(0, j , 600, j);
 		
-		SimpleSnake snake = SimpleSnake.snake;
+		Snake snake = Snake.snake;
 		
-		for(Point x: snake.segmenty)
+		for(Point x: snake.segmentySnake)
 		{
 			g.setColor(Color.GREEN);
 			g.fillRect((int)x.getX() * sP, (int)x.getY() * wP, sP, wP);
 		}
 		
-		Point cherry = SimpleSnake.cherry;
+		Point cherry = Snake.cherry;
 		
 		g.setColor(Color.RED);
 		g.fillRect((int)cherry.getX() * sP, (int)cherry.getY() * wP, sP, wP);
